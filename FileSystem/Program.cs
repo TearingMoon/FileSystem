@@ -12,12 +12,12 @@ ______ _ _        _____           _
 \_|   |_|_|\___| \____/ \__, |___/\__\___|_| |_| |_|
                          __/ |                      
                         |___/                        
--------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 by Carlos Vicente, David Torrubia, Eduardo Villar, Alvaro García and Adrián Liso
--------------------------------------------------------------";
+-----------------------------------------------------------------------------------------";
 Console.ForegroundColor = ConsoleColor.White;
 
-MenuOption[] options = { new MenuOption("Prueba"), new MenuOption("Verde", ConsoleColor.Green, ConsoleColor.Black)};
-Menu mainMenu = new Menu(header, options);
+MenuOption[] mainMenuOptions = { new MenuOption("Prueba"), new MenuOption("Verde", ConsoleColor.Green, ConsoleColor.Black)};
+Menu mainMenu = new Menu(header, mainMenuOptions);
 int index = mainMenu.Run();
-Console.WriteLine($"You selected:{index}");
+Console.WriteLine($"You selected:{mainMenuOptions[index].Text}");
