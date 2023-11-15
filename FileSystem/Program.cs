@@ -26,9 +26,9 @@ while (input != null && input != "exit")
     System.Console.WriteLine("6. ");
     System.Console.WriteLine("7. ");
     System.Console.WriteLine("8. ");
-    System.Console.WriteLine("EXIT. ");
+    System.Console.WriteLine("EXIT. Exits the program");
 
-    input = Console.ReadLine();
+    input = Console.ReadLine().ToLowerInvariant();
 
     System.Console.WriteLine("You selected: " + input);
 }
