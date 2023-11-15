@@ -9,6 +9,8 @@ Console.WriteLine(@" |  _| | | |  __/ |_____|  ___) | |_| \__ \ ||  __/ | | | | 
 Console.WriteLine(@" |_|   |_|_|\___|         |____/ \__, |___/\__\___|_| |_| |_|");
 Console.WriteLine(@"                                 |___/                       ");
 Console.WriteLine(@"-------------------------------------------------------------");
+System.Console.WriteLine("by Carlos Vicente, David Torrubia, Eduardo Villar, Alvaro García and Adrián Liso");
+Console.WriteLine(@"-------------------------------------------------------------");
 Console.ForegroundColor = ConsoleColor.White;
 
 string? input = "Continue";
@@ -24,6 +26,7 @@ while (input != null && input != "exit")
     System.Console.WriteLine("6. ");
     System.Console.WriteLine("7. ");
     System.Console.WriteLine("8. ");
+    System.Console.WriteLine("EXIT. ");
 
     input = Console.ReadLine();
 
