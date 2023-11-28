@@ -6,12 +6,23 @@ public enum ColorEnum
     [ColorInfo(ConsoleColor.Red, ConsoleColor.Black)]
     Error,
 
+    [ColorInfo(ConsoleColor.Black, ConsoleColor.Red)]
+    ErrorNoBg,
+
     [ColorInfo(ConsoleColor.Green, ConsoleColor.Black)]
     Success,
 
     [ColorInfo(ConsoleColor.White, ConsoleColor.Black)]
     Important,
 
+    [ColorInfo(ConsoleColor.DarkRed, ConsoleColor.White)]
+    Danger,
+    
+    [ColorInfo(ConsoleColor.Cyan, ConsoleColor.Black)]
+    Options,
+
+    [ColorInfo(ConsoleColor.Red, ConsoleColor.Black)]
+    Delete,
 
 
 }

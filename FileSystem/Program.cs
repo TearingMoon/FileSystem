@@ -19,10 +19,53 @@ ______ _ _        _____           _
 by Carlos Vicente, David Torrubia, Eduardo Villar, Alvaro García and Adrián Liso
 -----------------------------------------------------------------------------------------";
 
-MenuOption[] mainMenuOptions = { new MenuOption("Prueba"), new MenuOption("Verde", ColorEnum.Success)};
-int index = Menu.Run(header, mainMenuOptions);
-Console.WriteLine($"You selected:{mainMenuOptions[index].Text}");
+bool mainmenuIterator = true;
+MenuOption[] mainMenuOptions = { new MenuOption("Start", ColorEnum.Success), new MenuOption("Options (In Development)", ColorEnum.Options), new MenuOption("Exit", ColorEnum.Error) };
+while (mainmenuIterator)
+{
+    switch (Menu.Run(header, mainMenuOptions))
+    {
+        case 0:
+            Data.dataInit();
+            bool controllerIterator = true;
+            MenuOption[] controllerOptions = { new MenuOption("Create", ColorEnum.Success),new MenuOption("Create Directory", ColorEnum.Success), new MenuOption("Move", ColorEnum.Options), new MenuOption("Delete", ColorEnum.Danger), new MenuOption("Delete Directory", ColorEnum.Danger), new MenuOption("Exit", ColorEnum.Error) };
+            while (controllerIterator)
+            {
+                switch (Menu.Run(header, controllerOptions))
+                {
+                    case 0: //Create File
+                        Console.Clear();
+                        FileSystemController.CreateFile();
+                        Thread.Sleep(1000);
+                        break;
+                    case 1: // Create Directory
+                        break;
+                    case 2: // Move File
+                        break;
 
-//LLenar listas clusters y metadatos
-Data.dataInit();
-FileSystemController.CreateFile();
+                    case 3: // Delete File
+                        break;
+
+                    case 4: // Delete Directory
+                        break;
+
+                    case 5: // Show Scheme
+                        break;
+
+                    case 6: //Exit
+
+                        break;
+                    default:
+                        controllerIterator = false;
+                        break;
+                }
+            }
+            break;
+        case 2:
+            mainmenuIterator = false;
+            break;
+        default:
+            mainmenuIterator = false;
+            break;
+    }
+}

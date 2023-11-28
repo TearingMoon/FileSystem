@@ -12,6 +12,7 @@ namespace FileSystem.Display
         public static int Run(string header, MenuOption[] options)
         {
             ConsoleKey PressedKey;
+            SelectedIndex = 0;
             do
             {
                 Console.Clear();
@@ -42,10 +43,9 @@ namespace FileSystem.Display
         public static T RequestStream<T>(string text)
         {
             T result;
-            //Bucle infinito de solicitud de elemento correcto
             while (true)
             {
-                Console.WriteLine(text);
+                Write(text, ColorEnum.Important);
                 var input = Console.ReadLine();
                 if (input != null && input.Trim() != "" && TryParse<T>(input, out result))
                 {
@@ -53,7 +53,7 @@ namespace FileSystem.Display
                 }
                 else
                 {
-                    Write("Incorrect value Type you must enter a " + typeof(T).Name, ColorEnum.Error);
+                    Write("Incorrect value Type you must enter a " + typeof(T).Name, ColorEnum.ErrorNoBg);
                 }
             }
         }

@@ -21,6 +21,7 @@ namespace FileSystem.FileSystemController
         {
             while (true)
             {
+                Console.WriteLine("");
                 var input = Menu.RequestStream<string>("Type the file name and extension:");
                 string[] stringParts = input.Split('.');
                 if (input != null && input.Trim() != "" && stringParts.Length >= 2)
@@ -29,7 +30,7 @@ namespace FileSystem.FileSystemController
                 }
                 else
                 {
-                    Menu.Write("Incorrect file name or extension, you must input a name and extension", ColorEnum.Error);
+                    Menu.Write("Incorrect file name or extension, you must input a name and extension", ColorEnum.ErrorNoBg);
                 }
             }
         }
@@ -38,6 +39,7 @@ namespace FileSystem.FileSystemController
         {
             while (true)
             {
+                Console.WriteLine("");
                 var input = Menu.RequestStream<string>("Type the desired path:");
                 FatTableEntity? coincidence;
 
@@ -56,7 +58,7 @@ namespace FileSystem.FileSystemController
                 }
                 else
                 {
-                    Menu.Write("Incorrect path, you must input a valid path", ColorEnum.Error);
+                    Menu.Write("Incorrect path, you must input a valid path", ColorEnum.ErrorNoBg);
                 }
             }
         }
