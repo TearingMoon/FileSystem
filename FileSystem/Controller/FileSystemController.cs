@@ -70,9 +70,12 @@ namespace FileSystem.FileSystemController
             }
         }
 
-        public static void DeleteFile()
+        public static void DeleteFile(string oldPath = "")
         {
-            string oldPath = IsValidOldPath();
+            if (oldPath == "")
+            {
+                oldPath = IsValidOldPath();
+            }
             var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(oldPath.ToLowerInvariant()) && !x.IsDirectory);
             if (oldEntity != null)
             {
@@ -95,6 +98,25 @@ namespace FileSystem.FileSystemController
                         metadataPosition = Data.metadataList[metadataPosition].NextCluster;
                     }
                 }
+            }
+        }
+
+        public static void DeleteDirectory()
+        {
+            string route = IsValidRoute();
+            List<FatTableEntity> coincidences = Data.entityList.Where(x => x.Path.ToLowerInvariant().Contains(route.ToLowerInvariant()) && !x.IsDirectory).ToList();
+            foreach (var item in coincidences)
+            {
+                DeleteFile(item.Path);
+            }
+
+            var result = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(route.ToLowerInvariant()) && x.IsDirectory);
+            if (result != null)
+            {
+                Data.metadataList[result.ClusterAllocation].Avaliable = true;
+                Data.metadataList[result.ClusterAllocation].End = false;
+                Data.metadataList[result.ClusterAllocation].NextCluster = -1;
+                Data.entityList.Remove(result);
             }
         }
 

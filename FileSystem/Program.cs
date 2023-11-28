@@ -61,8 +61,11 @@ while (mainmenuIterator)
                         FileSystemController.DeleteFile();
                         Thread.Sleep(1000);
                         break;
-                        
+
                     case 4: // Delete Directory
+                        Console.Clear();
+                        FileSystemController.DeleteDirectory();
+                        Thread.Sleep(1000);
                         break;
 
                     case 5: // Show Scheme
