@@ -3,54 +3,19 @@ namespace FileSystem.Display
     using System.Reflection;
     using System.Threading.Channels;
     using FileSystem.Data;
-    class Menu
+    public static class Menu
     {
         #region Properties and Constructor
-        private int SelectedIndex;
-        private MenuOption[] Options;
-        private string Text;
-
-        public Menu(string text, MenuOption[] options, int StartingIndex = 0)
-        {
-            Text = text;
-            Options = options;
-            SelectedIndex = StartingIndex;
-        }
+        private static int SelectedIndex = 0;
         #endregion
 
-        private void Display()
-        {
-            Console.WriteLine(Text);
-            for (int i = 0; i < Options.Length; i++)
-            {
-                MenuOption current = Options[i];
-                string symbol;
-
-                if (i == SelectedIndex)
-                {
-                    symbol = ">> ";
-                    var attributes = GetColorInfo(current.ColorData);
-                    Console.ForegroundColor = attributes != null ? attributes.ForegroundColor : ConsoleColor.Black;
-                    Console.BackgroundColor = attributes != null ? attributes.BackgroundColor : ConsoleColor.Black;
-                }
-                else
-                {
-                    symbol = "";
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.BackgroundColor = ConsoleColor.Black;
-                }
-                Console.WriteLine($"{symbol}{current.Text}");
-            }
-            Console.ResetColor();
-        }
-
-        public int Run()
+        public static int Run(string header, MenuOption[] options)
         {
             ConsoleKey PressedKey;
             do
             {
                 Console.Clear();
-                Display();
+                Display(header, options);
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 PressedKey = keyInfo.Key;
@@ -64,7 +29,7 @@ namespace FileSystem.Display
                 }
                 else if (PressedKey == ConsoleKey.DownArrow)
                 {
-                    if (SelectedIndex < Options.Length - 1)
+                    if (SelectedIndex < options.Length - 1)
                     {
                         SelectedIndex++;
                     }
@@ -88,7 +53,7 @@ namespace FileSystem.Display
                 }
                 else
                 {
-                    Menu.Write("Incorrect value Type", ColorEnum.Error);
+                    Write("Incorrect value Type you must enter a " + typeof(T).Name, ColorEnum.Error);
                 }
             }
         }
@@ -121,6 +86,33 @@ namespace FileSystem.Display
         {
             var memberInfo = typeof(ColorEnum).GetMember(colorScheme.ToString());
             return (ColorInfoAttribute?)Attribute.GetCustomAttribute(memberInfo[0], typeof(ColorInfoAttribute));
+        }
+
+        private static void Display(string header, MenuOption[] options)
+        {
+            Console.ResetColor();
+            Console.WriteLine(header);
+            for (int i = 0; i < options.Length; i++)
+            {
+                MenuOption current = options[i];
+                string symbol;
+
+                if (i == SelectedIndex)
+                {
+                    symbol = ">> ";
+                    var attributes = GetColorInfo(current.ColorData);
+                    Console.ForegroundColor = attributes != null ? attributes.ForegroundColor : ConsoleColor.Black;
+                    Console.BackgroundColor = attributes != null ? attributes.BackgroundColor : ConsoleColor.Black;
+                }
+                else
+                {
+                    symbol = "";
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                }
+                Console.WriteLine($"{symbol}{current.Text}");
+            }
+            Console.ResetColor();
         }
 
         #endregion

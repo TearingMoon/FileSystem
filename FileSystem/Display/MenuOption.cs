@@ -1,6 +1,6 @@
 namespace FileSystem.Display
 {
-    class MenuOption
+    public class MenuOption
     {
         public ColorEnum ColorData;
         public string Text;

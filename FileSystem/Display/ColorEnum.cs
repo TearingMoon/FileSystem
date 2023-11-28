@@ -1,4 +1,4 @@
-enum ColorEnum
+public enum ColorEnum
 {
     [ColorInfo(ConsoleColor.Black, ConsoleColor.White)]
     Default,

@@ -18,11 +18,9 @@ ______ _ _        _____           _
 -----------------------------------------------------------------------------------------
 by Carlos Vicente, David Torrubia, Eduardo Villar, Alvaro García and Adrián Liso
 -----------------------------------------------------------------------------------------";
-Console.ForegroundColor = ConsoleColor.White;
 
 MenuOption[] mainMenuOptions = { new MenuOption("Prueba"), new MenuOption("Verde", ColorEnum.Success)};
-Menu mainMenu = new Menu(header, mainMenuOptions);
-int index = mainMenu.Run();
+int index = Menu.Run(header, mainMenuOptions);
 Console.WriteLine($"You selected:{mainMenuOptions[index].Text}");
 
 //LLenar listas clusters y metadatos
