@@ -1,6 +1,6 @@
 namespace FileSystem.Entities
 {
-    class FatTableEntity
+    public class FatTableEntity
     {
         public string Route;
         public bool IsDirectory;

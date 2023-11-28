@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using FileSystem.Display;
 using FileSystem.Entities;
+using FileSystem.Data;
 
 Console.ForegroundColor = ConsoleColor.Yellow;
 string header = @"
@@ -23,21 +24,5 @@ Menu mainMenu = new Menu(header, mainMenuOptions);
 int index = mainMenu.Run();
 Console.WriteLine($"You selected:{mainMenuOptions[index].Text}");
 
-List<Cluster> clusterList = new List<Cluster>(Config.ClusterAmmount);
-for(int i=0;i<Config.ClusterAmmount;i++)
-{
-    Cluster newCluster = new Cluster();
-    clusterList.Add(newCluster);
-}
-
-
-//Lista de Metadatos
-List<Metadata> metadataList = new List<Metadata>(Config.ClusterAmmount);
-for(int i=0;i<Config.ClusterAmmount;i++)
-{
-    Metadata newMetadata = new Metadata();
-    metadataList.Add(newMetadata);
-}
-
-//Lista de Entidades
-List<FatTableEntity> entityList = new List<FatTableEntity>(Config.ClusterAmmount);
+//LLenar listas clusters y metadatos
+Data.dataInit();

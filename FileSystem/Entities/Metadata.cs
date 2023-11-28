@@ -2,7 +2,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace FileSystem.Entities
 {
-    class Metadata
+    public class Metadata
     {
         public bool Avaliable;
         public bool Damaged;

@@ -2,7 +2,7 @@ using System.Drawing;
 
 namespace FileSystem.Entities
 {
-    class Cluster
+    public class Cluster
     {
         public string? Name;
 
