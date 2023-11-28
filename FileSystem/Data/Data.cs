@@ -31,6 +31,12 @@ namespace FileSystem.Data
                 metadataList.Add(newMetadata);
             }
 
+            //Creation of initial directory
+            clusterList[0].Name = "C:/";
+            metadataList[0].Avaliable = false;
+            metadataList[0].End = true;
+            metadataList[0].NextCluster = null;
+            entityList.Add(new FatTableEntity("C:/", true, clusterAllocation:0));
         }
 
 

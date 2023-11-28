@@ -43,7 +43,7 @@ namespace FileSystem.FileSystemController
 
                 if (input != null)
                 {
-                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(input.ToLowerInvariant()));
+                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(input.ToLowerInvariant()) && x.IsDirectory);
                 }
                 else
                 {
