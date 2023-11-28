@@ -24,8 +24,10 @@ int index = mainMenu.Run();
 Console.WriteLine($"You selected:{mainMenuOptions[index].Text}");
 
 //Lista de Clusters (16)
-List<Cluster> clusterList = new List<Cluster>(new int[16]);
-for(int i=0;i<clusterlist.Count;i++)
+int clusterAmount = 16;
+
+List<Cluster> clusterList = new List<Cluster>(clusterAmount);
+for(int i=0;i<clusterAmount;i++)
 {
     Cluster newCluster = new Cluster();
     clusterList.add(newCluster);
@@ -33,12 +35,12 @@ for(int i=0;i<clusterlist.Count;i++)
 
 
 //Lista de Metadatos
-List<Metadata> metadataList = new List<Metadata>(new int[16]);
-for(int i=0;i<metadataList.Count;i++)
+List<Metadata> metadataList = new List<Metadata>(clusterAmount);
+for(int i=0;i<clusterAmount;i++)
 {
     Metadata newMetadata = new Metadata();
     metadataList.add(newMetadata);
 }
 
 //Lista de Entidades
-List<FatTableEntity> entityList = new List<FatTableEntity>(new int[16]);
+List<FatTableEntity> entityList = new List<FatTableEntity>(clusterAmount);
