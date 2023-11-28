@@ -17,7 +17,7 @@ namespace FileSystem.Data
         public static List<FatTableEntity> entityList = new List<FatTableEntity>(Config.ClusterAmmount);
 
 
-        public static void dataInit()
+        public static void DataInit()
         {
             for (int i = 0; i < Config.ClusterAmmount; i++)
             {
@@ -39,7 +39,14 @@ namespace FileSystem.Data
             entityList.Add(new FatTableEntity("C:/", true, clusterAllocation:0));
         }
 
-
+        public static int GetfirstAvaliableMetadata(){
+            var stash = metadataList.FirstOrDefault(x => x.Avaliable && !x.Damaged && !x.Reserved);
+            if (stash != null){
+                return metadataList.IndexOf(stash);
+            } else {
+                return -1;
+            }
+        }
     }
 
 

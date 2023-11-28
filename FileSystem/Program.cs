@@ -26,9 +26,16 @@ while (mainmenuIterator)
     switch (Menu.Run(header, mainMenuOptions))
     {
         case 0:
-            Data.dataInit();
+            Data.DataInit();
             bool controllerIterator = true;
-            MenuOption[] controllerOptions = { new MenuOption("Create", ColorEnum.Success),new MenuOption("Create Directory", ColorEnum.Success), new MenuOption("Move", ColorEnum.Options), new MenuOption("Delete", ColorEnum.Danger), new MenuOption("Delete Directory", ColorEnum.Danger), new MenuOption("Exit", ColorEnum.Error) };
+            MenuOption[] controllerOptions = { 
+                new MenuOption("Create", ColorEnum.Success), 
+                new MenuOption("Create Directory", ColorEnum.Success), 
+                new MenuOption("Move", ColorEnum.Options), 
+                new MenuOption("Delete", ColorEnum.Danger), 
+                new MenuOption("Delete Directory", ColorEnum.Danger), 
+                new MenuOption("Show Scheme", ColorEnum.Important), 
+                new MenuOption("Exit", ColorEnum.Error) };
             while (controllerIterator)
             {
                 switch (Menu.Run(header, controllerOptions))
@@ -50,11 +57,10 @@ while (mainmenuIterator)
                         break;
 
                     case 5: // Show Scheme
+                        FileSystemController.ShowScheme();
                         break;
 
                     case 6: //Exit
-
-                        break;
                     default:
                         controllerIterator = false;
                         break;

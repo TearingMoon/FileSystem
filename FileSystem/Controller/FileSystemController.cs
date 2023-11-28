@@ -12,21 +12,114 @@ namespace FileSystem.FileSystemController
             string route;
             int size;
 
-            name = IsValidFileName();
             route = IsValidRoute();
+            name = IsValidFileName(route);
             size = WillFileFit();
+
+            for (int i = 0; i < size; i++)
+            {
+                int clusterId = Data.GetfirstAvaliableMetadata();
+                if (i == 0)
+                {
+                    Data.entityList.Add(new FatTableEntity(route + name, false, clusterId));
+                }
+
+                Data.metadataList[clusterId].Avaliable = false;
+                if (i != size - 1)
+                {
+                    Data.metadataList[clusterId].End = false;
+                    Data.metadataList[clusterId].NextCluster = Data.GetfirstAvaliableMetadata();
+                }
+                else
+                {
+                    Data.metadataList[clusterId].End = true;
+                }
+
+                Data.clusterList[clusterId].Name = name;
+            }
         }
 
-        private static string IsValidFileName()
+        public static void ShowScheme()
+        {
+            Console.Clear();
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("| METADATA                                                              |");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("| Cluster | Avaliable | Damaged | Reserved |       | Next     | End     |");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            for (int i = 0; i < Data.metadataList.Count; i++)
+            {
+                Console.Write($"{"",-2}");
+                Console.Write($"{i,-10}");
+                Console.Write($"{Data.metadataList[i].Avaliable,-12}");
+                Console.Write($"{Data.metadataList[i].Damaged,-10}");
+                Console.Write($"{Data.metadataList[i].Reserved,-12}");
+                Console.Write("       ");
+                Console.Write($"{(Data.metadataList[i].NextCluster != null ? Data.metadataList[i].NextCluster : "Empty"),-11}");
+                Console.Write($"{Data.metadataList[i].End,-5}");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("Press any key to continue =>");
+            Console.ReadLine();
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("| Fat Table                                                             |");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("| Route                                           | Type      | Cluster |");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            for (int i = 0; i < Data.entityList.Count; i++)
+            {
+                Console.Write($"{"",-2}");
+                Console.Write($"{Data.entityList[i].Path,-50}");
+                Console.Write($"{(Data.entityList[i].IsDirectory ? "Directory" : "File"),-12}");
+                Console.Write($"{Data.entityList[i].ClusterAllocation,-10}");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("Press any key to continue =>");
+            Console.ReadLine();
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("| Clusters                                                              |");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("| Cluster | FileName                                                    |");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            for (int i = 0; i < Data.clusterList.Count; i++)
+            {
+                Console.Write($"{"",-2}");
+                Console.Write($"{i,-11}");
+                Console.Write($"{(Data.clusterList[i].Name != "" && Data.clusterList[i].Name != null ? Data.clusterList[i].Name : "~ EMPTY ~"),-11}");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("Press any key to continue =>");
+            Console.ReadLine();
+        }
+
+        private static string IsValidFileName(string route)
         {
             while (true)
             {
                 Console.WriteLine("");
                 var input = Menu.RequestStream<string>("Type the file name and extension:");
                 string[] stringParts = input.Split('.');
+
                 if (input != null && input.Trim() != "" && stringParts.Length >= 2)
                 {
-                    return input;
+                    var coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Contains((route + input).ToLowerInvariant()));
+
+                    if (coincidence == null)
+                    {
+                        return input;
+                    }
+                    else
+                    {
+                        Menu.Write("That file already exists in that directory, choose another name", ColorEnum.ErrorNoBg);
+                    }
                 }
                 else
                 {
