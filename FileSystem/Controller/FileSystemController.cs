@@ -14,7 +14,7 @@ namespace FileSystem.FileSystemController
 
             name = IsValidFileName();
             route = IsValidRoute();
-            size = Menu.RequestStream<int>("Type the file cluster size:");
+            size = WillFileFit();
         }
 
         private static string IsValidFileName()
@@ -59,6 +59,26 @@ namespace FileSystem.FileSystemController
                 else
                 {
                     Menu.Write("Incorrect path, you must input a valid path", ColorEnum.ErrorNoBg);
+                }
+            }
+        }
+
+        private static int WillFileFit()
+        {
+            while (true)
+            {
+                Console.WriteLine("");
+                var input = Menu.RequestStream<int>("Type the file cluster size:");
+
+                List<Metadata> AvaliableCluster = Data.metadataList.Where(x => x.Avaliable && !x.Reserved && !x.Damaged).ToList();
+
+                if (AvaliableCluster.Count >= input)
+                {
+                    return input;
+                }
+                else
+                {
+                    Menu.Write("The File is too heavy to fit, change file size", ColorEnum.ErrorNoBg);
                 }
             }
         }
