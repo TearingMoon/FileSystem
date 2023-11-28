@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.ComponentModel.Design;
 using FileSystem.Display;
+using FileSystem.Entities;
 
 Console.ForegroundColor = ConsoleColor.Yellow;
 string header = @"
