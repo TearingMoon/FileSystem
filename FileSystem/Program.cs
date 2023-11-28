@@ -51,6 +51,9 @@ while (mainmenuIterator)
                         Thread.Sleep(1000);
                         break;
                     case 2: // Move File
+                        Console.Clear();
+                        FileSystemController.MoveFile();
+                        Thread.Sleep(1000);
                         break;
 
                     case 3: // Delete File

@@ -49,6 +49,11 @@ namespace FileSystem.Data
                 return -1;
             }
         }
+
+        public static bool fileExists(string fullPath){
+            var coincidence = entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Contains((fullPath).ToLowerInvariant()) && !x.IsDirectory);
+            return coincidence != null ? true : false; 
+        }
     }
 
 
