@@ -50,8 +50,12 @@ namespace FileSystem.Data
             }
         }
 
-        public static bool fileExists(string fullPath){
+        public static bool FileExists(string fullPath){
             var coincidence = entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Contains((fullPath).ToLowerInvariant()) && !x.IsDirectory);
+            return coincidence != null ? true : false; 
+        }
+        public static bool DirectoryExists(string fullPath){
+            var coincidence = entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Contains((fullPath).ToLowerInvariant()) && x.IsDirectory);
             return coincidence != null ? true : false; 
         }
     }

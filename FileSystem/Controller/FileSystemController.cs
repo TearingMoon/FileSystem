@@ -120,6 +120,25 @@ namespace FileSystem.FileSystemController
             }
         }
 
+        public static void MoveDirectory(){
+            string oldPath = IsValidOldPathDirectory();
+            string newPath = IsValidNewPathDirectory(oldPath) + '/';
+
+            var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(oldPath.ToLowerInvariant()) && x.IsDirectory);
+
+
+            if (oldEntity != null)
+            {
+                List<FatTableEntity> results = Data.entityList.Where(x => x.Path.ToLowerInvariant().Contains(oldEntity.Path.ToLowerInvariant())).ToList();
+                foreach (var item in results)
+                {
+                    var index = Data.entityList.IndexOf(item);
+                    Data.entityList[index].Path = Data.entityList[index].Path.ToLowerInvariant().Replace(oldPath.ToLowerInvariant(), newPath);
+                }
+                Data.entityList[Data.entityList.IndexOf(oldEntity)].Path = newPath;
+            }
+        }
+
         public static void ShowScheme()
         {
             Console.Clear();
@@ -220,7 +239,7 @@ namespace FileSystem.FileSystemController
                 if (input != null && input.Trim() != "" && stringParts.Length >= 2)
                 {
 
-                    if (!Data.fileExists(route + input))
+                    if (!Data.FileExists(route + input))
                     {
                         return input;
                     }
@@ -286,7 +305,7 @@ namespace FileSystem.FileSystemController
                 if (input != null && input.Trim() != "" && coincidence != null)
                 {
                     var fullPath = input + oldPathSplits[oldPathSplits.Length - 1];
-                    if (!Data.fileExists(fullPath))
+                    if (!Data.FileExists(fullPath))
                     {
                         return fullPath;
                     }
@@ -309,7 +328,7 @@ namespace FileSystem.FileSystemController
             {
                 Console.WriteLine("");
                 var input = Menu.RequestStream<string>("Type the old file path:");
-                if (Data.fileExists(input))
+                if (Data.FileExists(input))
                 {
                     return input;
                 }
@@ -320,6 +339,59 @@ namespace FileSystem.FileSystemController
             }
         }
 
+        private static string IsValidOldPathDirectory(){
+            while (true)
+            {
+                Console.WriteLine("");
+                var input = Menu.RequestStream<string>("Type the old directory path:");
+                if (Data.DirectoryExists(input))
+                {
+                    return input;
+                }
+                else
+                {
+                    Menu.Write("That directory doesn't exist", ColorEnum.ErrorNoBg);
+                }
+            }
+        }
+
+        private static string IsValidNewPathDirectory(string oldPath)
+        {
+            while (true)
+            {
+                Console.WriteLine("");
+                var input = Menu.RequestStream<string>("Type the desired path:");
+                FatTableEntity? coincidence;
+
+                if (input != null)
+                {
+                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(input.ToLowerInvariant()) && x.IsDirectory);
+                }
+                else
+                {
+                    coincidence = null;
+                }
+
+                var oldPathSplits = oldPath.Split('/');
+
+                if (input != null && input.Trim() != "" && coincidence != null)
+                {
+                    var fullPath = input + oldPathSplits[oldPathSplits.Length - 2];
+                    if (!Data.DirectoryExists(fullPath))
+                    {
+                        return fullPath;
+                    }
+                    else
+                    {
+                        Menu.Write("Theres a directory with the same name on that path", ColorEnum.ErrorNoBg);
+                    }
+                }
+                else
+                {
+                    Menu.Write("Incorrect path, you must input a valid path", ColorEnum.ErrorNoBg);
+                }
+            }
+        }
         private static int WillFileFit()
         {
             while (true)

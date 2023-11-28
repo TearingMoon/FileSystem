@@ -32,6 +32,7 @@ while (mainmenuIterator)
                 new MenuOption("Create", ColorEnum.Success),
                 new MenuOption("Create Directory", ColorEnum.Success),
                 new MenuOption("Move", ColorEnum.Options),
+                new MenuOption("Move Directory", ColorEnum.Options),
                 new MenuOption("Delete File", ColorEnum.Danger),
                 new MenuOption("Delete Directory", ColorEnum.Danger),
                 new MenuOption("Show Scheme", ColorEnum.Important),
@@ -45,34 +46,42 @@ while (mainmenuIterator)
                         FileSystemController.CreateFile();
                         Thread.Sleep(1000);
                         break;
+
                     case 1: // Create Directory
                         Console.Clear();
                         FileSystemController.CreateDirectory();
                         Thread.Sleep(1000);
                         break;
+
                     case 2: // Move File
                         Console.Clear();
                         FileSystemController.MoveFile();
                         Thread.Sleep(1000);
                         break;
 
-                    case 3: // Delete File
+                    case 3: //Move Directory
+                        Console.Clear();
+                        FileSystemController.MoveDirectory();
+                        Thread.Sleep(1000);
+                        break;
+
+                    case 4: // Delete File
                         Console.Clear();
                         FileSystemController.DeleteFile();
                         Thread.Sleep(1000);
                         break;
 
-                    case 4: // Delete Directory
+                    case 5: // Delete Directory
                         Console.Clear();
                         FileSystemController.DeleteDirectory();
                         Thread.Sleep(1000);
                         break;
 
-                    case 5: // Show Scheme
+                    case 6: // Show Scheme
                         FileSystemController.ShowScheme();
                         break;
 
-                    case 6: //Exit
+                    case 7: //Exit
                     default:
                         controllerIterator = false;
                         break;
