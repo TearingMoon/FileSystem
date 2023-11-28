@@ -30,7 +30,7 @@ List<Cluster> clusterList = new List<Cluster>(clusterAmount);
 for(int i=0;i<clusterAmount;i++)
 {
     Cluster newCluster = new Cluster();
-    clusterList.add(newCluster);
+    clusterList.Add(newCluster);
 }
 
 
@@ -39,7 +39,7 @@ List<Metadata> metadataList = new List<Metadata>(clusterAmount);
 for(int i=0;i<clusterAmount;i++)
 {
     Metadata newMetadata = new Metadata();
-    metadataList.add(newMetadata);
+    metadataList.Add(newMetadata);
 }
 
 //Lista de Entidades
