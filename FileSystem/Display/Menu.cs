@@ -1,5 +1,6 @@
 namespace FileSystem.Display
 {
+    using FileSystem.Data;
     class Menu
     {
         private int SelectedIndex;
@@ -66,6 +67,29 @@ namespace FileSystem.Display
 
             } while (PressedKey != ConsoleKey.Enter && PressedKey != ConsoleKey.RightArrow);
             return SelectedIndex;
+        }
+        public void CrearArchivo()
+        {
+            public string nombre;
+            public string nArchivo;
+            public int tamano;
+
+            WriteLine("Introduzca el nombre del archivo que quiere añadir");
+            nombre = Console.ReadLine();
+            WriteLine("Introduzca el tamaño del archivo");
+            tamano = Console.ReadLine();
+            WriteLine("Introduzca el nombre del directorio");
+            nArchivo = Console.ReadLine();
+
+            for(int i=0;i<Data.clusterAmount;i++)
+            {
+                
+                if(Data.metadataList[i].avaliable)
+                {
+                    
+                }
+
+            }
         }
     }
 }
