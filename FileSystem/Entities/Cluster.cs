@@ -1,9 +1,19 @@
+using System.Drawing;
+
 namespace FileSystem.Entities
 {
     class Cluster
     {
-        public int Size;
-        public string Data;
+        public string? Name;
+
+        public Cluster(string name)
+        {
+            Name = name;
+        }
+
+        public Cluster(){
+            Name = null;
+        }
     }
 
 }
