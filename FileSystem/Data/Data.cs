@@ -4,8 +4,6 @@ namespace FileSystem.Data
 
     public static class Data
     {
-        //Number of clusters
-        public static int clusterAmount = 16;
 
         //Cluster list
         public static List<Cluster> clusterList = new List<Cluster>(Config.ClusterAmmount);
@@ -19,6 +17,10 @@ namespace FileSystem.Data
 
         public static void DataInit()
         {
+            clusterList.Clear();
+            metadataList.Clear();
+            entityList.Clear();
+
             for (int i = 0; i < Config.ClusterAmmount; i++)
             {
                 Cluster newCluster = new Cluster();

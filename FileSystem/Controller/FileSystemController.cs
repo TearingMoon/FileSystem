@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace FileSystem.FileSystemController
 {
     using FileSystem.Display;
@@ -35,6 +37,22 @@ namespace FileSystem.FileSystemController
                     Data.metadataList[clusterId].End = true;
                 }
 
+                Data.clusterList[clusterId].Name = name;
+            }
+        }
+
+        public static void CreateDirectory()
+        {
+            List<Metadata> AvaliableCluster = Data.metadataList.Where(x => x.Avaliable && !x.Reserved && !x.Damaged).ToList();
+            if (AvaliableCluster.Count >= 1)
+            {
+                string route = IsValidRoute();
+                string name = IsValidDirectoryName(route);
+                name = name + '/';
+                int clusterId = Data.GetfirstAvaliableMetadata();
+                Data.entityList.Add(new FatTableEntity(route + name, true, clusterId));
+                Data.metadataList[clusterId].Avaliable = false;
+                Data.metadataList[clusterId].End = true;
                 Data.clusterList[clusterId].Name = name;
             }
         }
@@ -100,6 +118,33 @@ namespace FileSystem.FileSystemController
             Console.ReadLine();
         }
 
+        private static string IsValidDirectoryName(string route)
+        {
+            while (true)
+            {
+                Console.WriteLine("");
+                var input = Menu.RequestStream<string>("Type the desired name:");
+
+                if (input != null && input.Trim() != "")
+                {
+                    var coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Contains((route + input).ToLowerInvariant()) && x.IsDirectory);
+
+                    if (coincidence == null)
+                    {
+                        return input;
+                    }
+                    else
+                    {
+                        Menu.Write("That file already exists in that directory, choose another name", ColorEnum.ErrorNoBg);
+                    }
+                }
+                else
+                {
+                    Menu.Write("Incorrect file name or extension, you must input a name and extension", ColorEnum.ErrorNoBg);
+                }
+            }
+        }
+
         private static string IsValidFileName(string route)
         {
             while (true)
@@ -110,7 +155,7 @@ namespace FileSystem.FileSystemController
 
                 if (input != null && input.Trim() != "" && stringParts.Length >= 2)
                 {
-                    var coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Contains((route + input).ToLowerInvariant()));
+                    var coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Contains((route + input).ToLowerInvariant()) && !x.IsDirectory);
 
                     if (coincidence == null)
                     {
