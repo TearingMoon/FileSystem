@@ -2,15 +2,18 @@ namespace FileSystem.Display
 {
     class MenuOption
     {
-        public ConsoleColor BackgroundColor;
-        public ConsoleColor TextColor;
+        public ColorEnum ColorData;
         public string Text;
 
-        public MenuOption(string text, ConsoleColor backgrounColor = ConsoleColor.White, ConsoleColor textColor = ConsoleColor.Black)
+        public MenuOption(string text, ColorEnum colorData)
         {
             Text = text;
-            BackgroundColor = backgrounColor;
-            TextColor = textColor;
+            ColorData = colorData;
+        }
+
+        public MenuOption(string text){
+            Text = text;
+            ColorData = ColorEnum.Important;
         }
 
     }

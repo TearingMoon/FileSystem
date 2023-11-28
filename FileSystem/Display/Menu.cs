@@ -1,8 +1,11 @@
 namespace FileSystem.Display
 {
+    using System.Reflection;
+    using System.Threading.Channels;
     using FileSystem.Data;
     class Menu
     {
+        #region Properties and Constructor
         private int SelectedIndex;
         private MenuOption[] Options;
         private string Text;
@@ -13,6 +16,7 @@ namespace FileSystem.Display
             Options = options;
             SelectedIndex = StartingIndex;
         }
+        #endregion
 
         private void Display()
         {
@@ -25,8 +29,9 @@ namespace FileSystem.Display
                 if (i == SelectedIndex)
                 {
                     symbol = ">> ";
-                    Console.ForegroundColor = current.TextColor;
-                    Console.BackgroundColor = current.BackgroundColor;
+                    var attributes = GetColorInfo(current.ColorData);
+                    Console.ForegroundColor = attributes != null ? attributes.ForegroundColor : ConsoleColor.Black;
+                    Console.BackgroundColor = attributes != null ? attributes.BackgroundColor : ConsoleColor.Black;
                 }
                 else
                 {
@@ -68,28 +73,56 @@ namespace FileSystem.Display
             } while (PressedKey != ConsoleKey.Enter && PressedKey != ConsoleKey.RightArrow);
             return SelectedIndex;
         }
-        public void CrearArchivo()
+
+        public static T RequestStream<T>(string text)
         {
-            public string nombre;
-            public string nArchivo;
-            public int tamano;
-
-            WriteLine("Introduzca el nombre del archivo que quiere añadir");
-            nombre = Console.ReadLine();
-            WriteLine("Introduzca el tamaño del archivo");
-            tamano = Console.ReadLine();
-            WriteLine("Introduzca el nombre del directorio");
-            nArchivo = Console.ReadLine();
-
-            for(int i=0;i<Data.clusterAmount;i++)
+            T result;
+            //Bucle infinito de solicitud de elemento correcto
+            while (true)
             {
-                
-                if(Data.metadataList[i].avaliable)
+                Console.WriteLine(text);
+                var input = Console.ReadLine();
+                if (input != null && input.Trim() != "" && TryParse<T>(input, out result))
                 {
-                    
+                    return result;
                 }
-
+                else
+                {
+                    Menu.Write("Incorrect value Type", ColorEnum.Error);
+                }
             }
         }
+
+        public static void Write(string text, ColorEnum color)
+        {
+            var attributes = GetColorInfo(color);
+            Console.BackgroundColor = attributes != null ? attributes.BackgroundColor : ConsoleColor.Black;
+            Console.ForegroundColor = attributes != null ? attributes.ForegroundColor : ConsoleColor.Black;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
+
+        #region Private
+        private static bool TryParse<T>(string input, out T result)
+        {
+            try
+            {
+                result = (T)Convert.ChangeType(input, typeof(T));
+                return true;
+            }
+            catch (Exception)
+            {
+                result = default!;
+                return false;
+            }
+        }
+
+        private static ColorInfoAttribute? GetColorInfo(ColorEnum colorScheme)
+        {
+            var memberInfo = typeof(ColorEnum).GetMember(colorScheme.ToString());
+            return (ColorInfoAttribute?)Attribute.GetCustomAttribute(memberInfo[0], typeof(ColorInfoAttribute));
+        }
+
+        #endregion
     }
 }

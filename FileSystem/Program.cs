@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using FileSystem.Display;
 using FileSystem.Entities;
 using FileSystem.Data;
+using FileSystem.FileSystemController;
 
 Console.ForegroundColor = ConsoleColor.Yellow;
 string header = @"
@@ -19,10 +20,11 @@ by Carlos Vicente, David Torrubia, Eduardo Villar, Alvaro García and Adrián Li
 -----------------------------------------------------------------------------------------";
 Console.ForegroundColor = ConsoleColor.White;
 
-MenuOption[] mainMenuOptions = { new MenuOption("Prueba"), new MenuOption("Verde", ConsoleColor.Green, ConsoleColor.Black)};
+MenuOption[] mainMenuOptions = { new MenuOption("Prueba"), new MenuOption("Verde", ColorEnum.Success)};
 Menu mainMenu = new Menu(header, mainMenuOptions);
 int index = mainMenu.Run();
 Console.WriteLine($"You selected:{mainMenuOptions[index].Text}");
 
 //LLenar listas clusters y metadatos
 Data.dataInit();
+FileSystemController.CreateFile();
