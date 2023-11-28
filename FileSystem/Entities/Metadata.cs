@@ -9,7 +9,7 @@ namespace FileSystem.Entities
         public bool Reserved;
 
         public bool End;
-        public int? NextCluster;
+        public int NextCluster;
         public Metadata(bool avaliable, bool damaged, bool reserved, bool end, int nextCluster)
         {
             Avaliable = avaliable;
@@ -24,7 +24,7 @@ namespace FileSystem.Entities
             Damaged = false;
             Reserved = false;
             End = false;
-            NextCluster = null;
+            NextCluster = -1;
         }
     }
 

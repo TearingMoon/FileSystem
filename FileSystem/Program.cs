@@ -32,7 +32,7 @@ while (mainmenuIterator)
                 new MenuOption("Create", ColorEnum.Success),
                 new MenuOption("Create Directory", ColorEnum.Success),
                 new MenuOption("Move", ColorEnum.Options),
-                new MenuOption("Delete", ColorEnum.Danger),
+                new MenuOption("Delete File", ColorEnum.Danger),
                 new MenuOption("Delete Directory", ColorEnum.Danger),
                 new MenuOption("Show Scheme", ColorEnum.Important),
                 new MenuOption("Exit", ColorEnum.Error) };
@@ -57,8 +57,11 @@ while (mainmenuIterator)
                         break;
 
                     case 3: // Delete File
+                        Console.Clear();
+                        FileSystemController.DeleteFile();
+                        Thread.Sleep(1000);
                         break;
-
+                        
                     case 4: // Delete Directory
                         break;
 

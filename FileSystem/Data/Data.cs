@@ -37,7 +37,7 @@ namespace FileSystem.Data
             clusterList[0].Name = "C:/";
             metadataList[0].Avaliable = false;
             metadataList[0].End = true;
-            metadataList[0].NextCluster = null;
+            metadataList[0].NextCluster = -1;
             entityList.Add(new FatTableEntity("C:/", true, clusterAllocation:0));
         }
 

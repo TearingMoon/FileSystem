@@ -53,6 +53,7 @@ namespace FileSystem.FileSystemController
                 Data.entityList.Add(new FatTableEntity(route + name, true, clusterId));
                 Data.metadataList[clusterId].Avaliable = false;
                 Data.metadataList[clusterId].End = true;
+                Data.metadataList[clusterId].NextCluster = -1;
                 Data.clusterList[clusterId].Name = name;
             }
         }
@@ -66,6 +67,34 @@ namespace FileSystem.FileSystemController
             if (oldEntity != null)
             {
                 Data.entityList[Data.entityList.IndexOf(oldEntity)].Path = newPath;
+            }
+        }
+
+        public static void DeleteFile()
+        {
+            string oldPath = IsValidOldPath();
+            var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(oldPath.ToLowerInvariant()) && !x.IsDirectory);
+            if (oldEntity != null)
+            {
+                Data.entityList.Remove(oldEntity);
+
+                int metadataPosition = oldEntity.ClusterAllocation;
+
+                bool Continue = true;
+
+                while (Continue)
+                {
+                    Data.metadataList[metadataPosition].Avaliable = true;
+
+                    if (Data.metadataList[metadataPosition].End)
+                    {
+                        Continue = false;
+                    }
+                    if (Data.metadataList[metadataPosition].NextCluster != -1)
+                    {
+                        metadataPosition = Data.metadataList[metadataPosition].NextCluster;
+                    }
+                }
             }
         }
 
@@ -85,7 +114,7 @@ namespace FileSystem.FileSystemController
                 Console.Write($"{Data.metadataList[i].Damaged,-10}");
                 Console.Write($"{Data.metadataList[i].Reserved,-12}");
                 Console.Write("       ");
-                Console.Write($"{(Data.metadataList[i].NextCluster != null ? Data.metadataList[i].NextCluster : "Empty"),-11}");
+                Console.Write($"{(Data.metadataList[i].NextCluster != -1 ? Data.metadataList[i].NextCluster : "Empty"),-11}");
                 Console.Write($"{Data.metadataList[i].End,-5}");
                 Console.WriteLine();
             }
