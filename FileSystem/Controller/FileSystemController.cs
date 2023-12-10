@@ -399,15 +399,22 @@ namespace FileSystem.FileSystemController
                 Console.WriteLine("");
                 var input = Menu.RequestStream<int>("Type the file cluster size:");
 
-                List<Metadata> AvaliableCluster = Data.metadataList.Where(x => x.Avaliable && !x.Reserved && !x.Damaged).ToList();
-
-                if (AvaliableCluster.Count >= input)
+                if(input<=0)
                 {
-                    return input;
+                    Menu.Write("File size is equal or less than 0, introduce a valid size", ColorEnum.ErrorNoBg);
                 }
                 else
                 {
-                    Menu.Write("The File is too heavy to fit, change file size", ColorEnum.ErrorNoBg);
+                    List<Metadata> AvaliableCluster = Data.metadataList.Where(x => x.Avaliable && !x.Reserved && !x.Damaged).ToList();
+
+                    if (AvaliableCluster.Count >= input)
+                    {
+                        return input;
+                    }
+                    else
+                    {
+                        Menu.Write("The File is too heavy to fit, change file size", ColorEnum.ErrorNoBg);
+                    }
                 }
             }
         }
