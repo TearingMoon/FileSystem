@@ -261,9 +261,9 @@ namespace FileSystem.FileSystemController
                 var input = Menu.RequestStream<string>("Type the file name and extension:");
                 string[] stringParts = input.Split('.');
 
-                if (input != null && input.Trim() != "" && stringParts.Length >= 2)
+                //NUEVO: He añadido la ultima condicion para que no se pueda dejar en blanco la extension del archivo
+                if (input != null && input.Trim() != "" && stringParts.Length >= 2 && stringParts[(stringParts.Length)-1] != "")
                 {
-
                     if (!Data.FileExists(route + input))
                     {
                         return input;
