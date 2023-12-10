@@ -104,12 +104,36 @@ namespace FileSystem.FileSystemController
         public static void DeleteDirectory()
         {
             string route = IsValidRoute();
+            
+            /*
             List<FatTableEntity> coincidences = Data.entityList.Where(x => x.Path.ToLowerInvariant().Contains(route.ToLowerInvariant()) && !x.IsDirectory).ToList();
             foreach (var item in coincidences)
             {
                 DeleteFile(item.Path);
             }
+            */
 
+            //NUEVO: Es el mismo bucle que el de los archivos solo que buscando directorios tambien, y borra el directorio/archivo
+            //dejo los otros dos comentados para no borrarlos, por si hay que cambiar algo
+
+            List<FatTableEntity> coincidences = Data.entityList.Where(x => x.Path.ToLowerInvariant().Contains(route.ToLowerInvariant())).ToList();
+            foreach (var item in coincidences)
+            {
+                if(item.IsDirectory)
+                {
+                    Data.metadataList[item.ClusterAllocation].Avaliable = true;
+                    Data.metadataList[item.ClusterAllocation].End = false;
+                    Data.metadataList[item.ClusterAllocation].NextCluster = -1;
+                    Data.entityList.Remove(item);
+                }
+                else
+                {
+                    DeleteFile(item.Path);
+                }
+                
+            }
+
+            /*
             var result = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(route.ToLowerInvariant()) && x.IsDirectory);
             if (result != null)
             {
@@ -118,6 +142,7 @@ namespace FileSystem.FileSystemController
                 Data.metadataList[result.ClusterAllocation].NextCluster = -1;
                 Data.entityList.Remove(result);
             }
+            */
         }
 
         public static void MoveDirectory(){
