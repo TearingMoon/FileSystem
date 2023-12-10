@@ -104,12 +104,36 @@ namespace FileSystem.FileSystemController
         public static void DeleteDirectory()
         {
             string route = IsValidRoute();
+            
+            /*
             List<FatTableEntity> coincidences = Data.entityList.Where(x => x.Path.ToLowerInvariant().Contains(route.ToLowerInvariant()) && !x.IsDirectory).ToList();
             foreach (var item in coincidences)
             {
                 DeleteFile(item.Path);
             }
+            */
 
+            //NUEVO: Es el mismo bucle que el de los archivos solo que buscando directorios tambien, y borra el directorio/archivo
+            //dejo los otros dos comentados para no borrarlos, por si hay que cambiar algo
+
+            List<FatTableEntity> coincidences = Data.entityList.Where(x => x.Path.ToLowerInvariant().Contains(route.ToLowerInvariant())).ToList();
+            foreach (var item in coincidences)
+            {
+                if(item.IsDirectory)
+                {
+                    Data.metadataList[item.ClusterAllocation].Avaliable = true;
+                    Data.metadataList[item.ClusterAllocation].End = false;
+                    Data.metadataList[item.ClusterAllocation].NextCluster = -1;
+                    Data.entityList.Remove(item);
+                }
+                else
+                {
+                    DeleteFile(item.Path);
+                }
+                
+            }
+
+            /*
             var result = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(route.ToLowerInvariant()) && x.IsDirectory);
             if (result != null)
             {
@@ -118,6 +142,7 @@ namespace FileSystem.FileSystemController
                 Data.metadataList[result.ClusterAllocation].NextCluster = -1;
                 Data.entityList.Remove(result);
             }
+            */
         }
 
         public static void MoveDirectory(){
@@ -236,9 +261,9 @@ namespace FileSystem.FileSystemController
                 var input = Menu.RequestStream<string>("Type the file name and extension:");
                 string[] stringParts = input.Split('.');
 
-                if (input != null && input.Trim() != "" && stringParts.Length >= 2)
+                //NUEVO: He añadido la ultima condicion para que no se pueda dejar en blanco la extension del archivo
+                if (input != null && input.Trim() != "" && stringParts.Length >= 2 && stringParts[(stringParts.Length)-1] != "")
                 {
-
                     if (!Data.FileExists(route + input))
                     {
                         return input;
@@ -363,7 +388,8 @@ namespace FileSystem.FileSystemController
                 var input = Menu.RequestStream<string>("Type the desired path:");
                 FatTableEntity? coincidence;
 
-                if (input != null)
+                //NUEVO: nueva condicion, el nuevo path no puede estar dentro del path del directorio que se quiere mover
+                if (input != null && !input.Contains(oldPath))
                 {
                     coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(input.ToLowerInvariant()) && x.IsDirectory);
                 }
@@ -399,15 +425,22 @@ namespace FileSystem.FileSystemController
                 Console.WriteLine("");
                 var input = Menu.RequestStream<int>("Type the file cluster size:");
 
-                List<Metadata> AvaliableCluster = Data.metadataList.Where(x => x.Avaliable && !x.Reserved && !x.Damaged).ToList();
-
-                if (AvaliableCluster.Count >= input)
+                if(input<=0)
                 {
-                    return input;
+                    Menu.Write("File size is equal or less than 0, introduce a valid size", ColorEnum.ErrorNoBg);
                 }
                 else
                 {
-                    Menu.Write("The File is too heavy to fit, change file size", ColorEnum.ErrorNoBg);
+                    List<Metadata> AvaliableCluster = Data.metadataList.Where(x => x.Avaliable && !x.Reserved && !x.Damaged).ToList();
+
+                    if (AvaliableCluster.Count >= input)
+                    {
+                        return input;
+                    }
+                    else
+                    {
+                        Menu.Write("The File is too heavy to fit, change file size", ColorEnum.ErrorNoBg);
+                    }
                 }
             }
         }
