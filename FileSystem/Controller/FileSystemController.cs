@@ -388,7 +388,8 @@ namespace FileSystem.FileSystemController
                 var input = Menu.RequestStream<string>("Type the desired path:");
                 FatTableEntity? coincidence;
 
-                if (input != null)
+                //NUEVO: nueva condicion, el nuevo path no puede estar dentro del path del directorio que se quiere mover
+                if (input != null && !input.Contains(oldPath))
                 {
                     coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(input.ToLowerInvariant()) && x.IsDirectory);
                 }
