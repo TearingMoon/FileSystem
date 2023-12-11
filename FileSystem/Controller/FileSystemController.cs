@@ -164,6 +164,38 @@ namespace FileSystem.FileSystemController
             }
         }
 
+        public static void ShowDirContent()
+        {
+            string dirPath = IsValidRoute();
+            var dirPathSplit = dirPath.Split('/');
+
+            Console.WriteLine("");
+            Menu.Write("Content of [" + dirPathSplit[dirPathSplit.Length-2] + "]:", ColorEnum.Important);
+            Console.WriteLine("");
+
+            foreach(var entity in Data.entityList)
+            {
+                var entityPathSplit = entity.Path.Split('/');
+
+                if(entity.Path.Contains(dirPath) && entity.Path != dirPath)
+                {
+                    if(entity.IsDirectory && entityPathSplit.Length == (dirPathSplit.Length+1))
+                    {
+                        Console.WriteLine("     " + "[D]" + entityPathSplit[entityPathSplit.Length-2]);
+                    }
+                    else if(entityPathSplit.Length == dirPathSplit.Length)
+                    {
+                        Console.WriteLine("     " + "[F]" + entityPathSplit.Last());
+                    }
+                    
+                }
+            }
+            
+            Console.WriteLine("");
+            Console.WriteLine("Press any key to continue =>");
+            Console.ReadLine();
+        }
+
         public static void ShowScheme()
         {
             Console.Clear();
