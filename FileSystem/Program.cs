@@ -36,7 +36,7 @@ while (mainmenuIterator)
                 new MenuOption("Delete File", ColorEnum.Danger),
                 new MenuOption("Delete Directory", ColorEnum.Danger),
                 new MenuOption("Show Scheme", ColorEnum.Important),
-                new MenuOption("Show dir content", ColorEnum.Important),
+                new MenuOption("Show Dir Content", ColorEnum.Important),
                 new MenuOption("Exit", ColorEnum.Error) };
             while (controllerIterator)
             {

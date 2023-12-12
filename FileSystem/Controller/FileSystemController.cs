@@ -63,7 +63,7 @@ namespace FileSystem.FileSystemController
             string oldPath = IsValidOldPath();
             string newPath = IsValidNewPath(oldPath);
 
-            var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(oldPath.ToLowerInvariant()) && !x.IsDirectory);
+            var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.Equals(oldPath) && !x.IsDirectory);
             if (oldEntity != null)
             {
                 Data.entityList[Data.entityList.IndexOf(oldEntity)].Path = newPath;
@@ -76,7 +76,7 @@ namespace FileSystem.FileSystemController
             {
                 oldPath = IsValidOldPath();
             }
-            var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(oldPath.ToLowerInvariant()) && !x.IsDirectory);
+            var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.Equals(oldPath) && !x.IsDirectory);
             if (oldEntity != null)
             {
                 Data.entityList.Remove(oldEntity);
@@ -116,7 +116,7 @@ namespace FileSystem.FileSystemController
             //NUEVO: Es el mismo bucle que el de los archivos solo que buscando directorios tambien, y borra el directorio/archivo
             //dejo los otros dos comentados para no borrarlos, por si hay que cambiar algo
 
-            List<FatTableEntity> coincidences = Data.entityList.Where(x => x.Path.ToLowerInvariant().Contains(route.ToLowerInvariant())).ToList();
+            List<FatTableEntity> coincidences = Data.entityList.Where(x => x.Path.Contains(route)).ToList();
             foreach (var item in coincidences)
             {
                 if(item.IsDirectory)
@@ -149,16 +149,16 @@ namespace FileSystem.FileSystemController
             string oldPath = IsValidOldPathDirectory();
             string newPath = IsValidNewPathDirectory(oldPath) + '/';
 
-            var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(oldPath.ToLowerInvariant()) && x.IsDirectory);
+            var oldEntity = Data.entityList.FirstOrDefault(x => x.Path.Equals(oldPath) && x.IsDirectory);
 
 
             if (oldEntity != null)
             {
-                List<FatTableEntity> results = Data.entityList.Where(x => x.Path.ToLowerInvariant().Contains(oldEntity.Path.ToLowerInvariant())).ToList();
+                List<FatTableEntity> results = Data.entityList.Where(x => x.Path.Contains(oldEntity.Path)).ToList();
                 foreach (var item in results)
                 {
                     var index = Data.entityList.IndexOf(item);
-                    Data.entityList[index].Path = Data.entityList[index].Path.ToLowerInvariant().Replace(oldPath.ToLowerInvariant(), newPath);
+                    Data.entityList[index].Path = Data.entityList[index].Path.Replace(oldPath, newPath);
                 }
                 Data.entityList[Data.entityList.IndexOf(oldEntity)].Path = newPath;
             }
@@ -267,7 +267,7 @@ namespace FileSystem.FileSystemController
 
                 if (input != null && input.Trim() != "")
                 {
-                    var coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Contains((route + input).ToLowerInvariant()) && x.IsDirectory);
+                    var coincidence = Data.entityList.FirstOrDefault(x => x.Path.Contains(route + input) && x.IsDirectory);
 
                     if (coincidence == null)
                     {
@@ -322,7 +322,7 @@ namespace FileSystem.FileSystemController
 
                 if (input != null)
                 {
-                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(input.ToLowerInvariant()) && x.IsDirectory);
+                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.Equals(input) && x.IsDirectory);
                 }
                 else
                 {
@@ -350,7 +350,7 @@ namespace FileSystem.FileSystemController
 
                 if (input != null)
                 {
-                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(input.ToLowerInvariant()) && x.IsDirectory);
+                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.Equals(input) && x.IsDirectory);
                 }
                 else
                 {
@@ -423,7 +423,7 @@ namespace FileSystem.FileSystemController
                 //NUEVO: nueva condicion, el nuevo path no puede estar dentro del path del directorio que se quiere mover
                 if (input != null && !input.Contains(oldPath))
                 {
-                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.ToLowerInvariant().Equals(input.ToLowerInvariant()) && x.IsDirectory);
+                    coincidence = Data.entityList.FirstOrDefault(x => x.Path.Equals(input) && x.IsDirectory);
                 }
                 else
                 {
