@@ -6,24 +6,12 @@ using FileSystem.Data;
 using FileSystem.FileSystemController;
 
 Console.ForegroundColor = ConsoleColor.Yellow;
-string header = @"
-______ _ _        _____           _                 
-|  ___(_) |      /  ___|         | |                
-| |_   _| | ___  \ `--. _   _ ___| |_ ___ _ __ ___  
-|  _| | | |/ _ \  `--. \ | | / __| __/ _ \ '_ ` _ \ 
-| |   | | |  __/ /\__/ / |_| \__ \ ||  __/ | | | | |
-\_|   |_|_|\___| \____/ \__, |___/\__\___|_| |_| |_|
-                         __/ |                      
-                        |___/                        
------------------------------------------------------------------------------------------
-by Carlos Vicente, David Torrubia, Eduardo Villar, Alvaro García and Adrián Liso
------------------------------------------------------------------------------------------";
 
 bool mainmenuIterator = true;
 MenuOption[] mainMenuOptions = { new MenuOption("Start", ColorEnum.Success), new MenuOption("Options (In Development)", ColorEnum.Options), new MenuOption("Exit", ColorEnum.Error) };
 while (mainmenuIterator)
 {
-    switch (Menu.Run(header, mainMenuOptions))
+    switch (Menu.Run(Config.header, mainMenuOptions))
     {
         case 0:
             Data.DataInit();
@@ -40,7 +28,7 @@ while (mainmenuIterator)
                 new MenuOption("Exit", ColorEnum.Error) };
             while (controllerIterator)
             {
-                switch (Menu.Run(header, controllerOptions))
+                switch (Menu.Run(Config.header, controllerOptions))
                 {
                     case 0: //Create File
                         Console.Clear();
@@ -94,9 +82,10 @@ while (mainmenuIterator)
                 }
             }
             break;
-        case 2:
-            mainmenuIterator = false;
+        case 1:
+            Config.ConfigMenu();
             break;
+        case 2:
         default:
             mainmenuIterator = false;
             break;
